@@ -1,0 +1,41 @@
+body{
+    margin: 10px;
+}
+.error{
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.success{
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+}
+
+.login {
+    display: inline-block;
+    width: 450px;
+    vertical-align: top;
+}
+.login label{
+    width: 150px;
+}
+
+.register{
+    display: inline-block;
+    width: 500px;
+    vertical-align: top;
+    border-left: 2px double grey;
+}
+.register label{
+    width: 150px;
+}
+.register input{
+    width: 150px;
+}
+.display{
+    margin-top: 20px;
+    width: 900px;
+}
+

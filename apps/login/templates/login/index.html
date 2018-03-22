@@ -1,0 +1,71 @@
+{% extends 'login/base.html' %}
+    {% block content %}
+    <div class="container login">
+        <h1>Login:</h1>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "login error" %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/login/login" method="POST">
+            {% csrf_token %}
+            <div class="form-inline form-group ">
+                <label for="email">Email</label>
+                <input name="email" type="text" id="email" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="password">Password</label>
+                <input name="password" type="password" id="password" class="form-control mx-sm-3" required>
+            </div>
+            
+            <input type="submit" value="Login" class="btn btn-primary">
+        </form>
+    </div> <!-- Login -->
+    
+    <div class="container register">
+        <h1>Registration:</h1>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "create error" %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/login/create" method="POST">
+            {% csrf_token %}
+            <div class="form-inline form-group ">
+                <label for="firstname">First name</label>
+                <input name="first_name" type="text" id="firstname" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="lastname">Last name</label>
+                <input name="last_name" type="text" id="lastname" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="email">Email</label>
+                <input name="email" type="text" id="email" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="password">Password</label>
+                <input name="password" type="password" id="password" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="password_confirm">Confirm Password</label>
+                <input name="password_confirm" type="password" id="password_confirm" class="form-control mx-sm-3" required>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="date_birth">Birth date</label>
+                <input name="date_birth" type="date" id="date_birth" class="form-control mx-sm-3">
+            </div>
+            <input type="submit" value="Register" class="btn btn-primary form-control">
+        </form>
+    </div> <!-- Registration-->
+    {% endblock %}
