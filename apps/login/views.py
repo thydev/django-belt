@@ -51,7 +51,7 @@ def create(request):
     if  request.POST['date_birth']:
         print request.POST['date_birth'] < datetime.now().strftime("%Y-%m-%d")
         
-    return redirect('/')
+    # return redirect('/') # testing purpose
 
     # Validation for creating new object
     errors = User.objects.create_validator(request.POST)
