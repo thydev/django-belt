@@ -14,12 +14,11 @@ def isLogin(request):
         return True
     return False
 
+
 # Display all quote, favorite quotes, add new quote
 def index(request):
     if not isLogin(request):
         return redirect('/')
-
-    quotes = Quote.objects.all()
     
     user = User.objects.get(id=request.session['loggedin']['id'])
     favorites = Favorite.objects.filter(user=user)
@@ -29,7 +28,7 @@ def index(request):
     for fav in user.user_favorites.all():
         object_id_list.append(fav.quote.id)
 
-    quotes = Quote.objects.all().exclude(id__in = object_id_list)
+    quotes = Quote.objects.all().exclude(id__in = object_id_list).order_by('-created_at')
 
     print favorites
     print user.user_favorites.all().values('quote')

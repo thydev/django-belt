@@ -76,9 +76,10 @@ body{
 }
 
 .booklist{
-    width: 300px;
-    border: 2px double cornflowerblue;
+    width: 400px;
+    border: 2px double gray;
     padding: 10px;
+    border-radius: 5px;
 }
 .booklist a{
     display: block;

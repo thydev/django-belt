@@ -6,7 +6,7 @@
         
         {% for quote in quotes %}
         <div class="review_box">
-            <p>{{quote.quoted_by}}: {{quote.message}}</p>
+            <p><strong>{{quote.quoted_by}}</strong>: {{quote.message}}</p>
             <p>Posted by <a href="/quotes/users/{{quote.poster.id}}">{{ quote.poster.first_name }}</a></p>
             <form action="/quotes/{{quote.id}}/add/favorite" method="post">
                 {% csrf_token %}

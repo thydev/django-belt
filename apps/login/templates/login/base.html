@@ -23,6 +23,17 @@
     <script src="{% static 'login/js/app.js' %}"></script>
 </head>
 <body>
+    {% if request.session.loggedin.id != -1 %}
+    <div class="loggedin">
+        <p>Hello, <strong>{{request.session.loggedin.name}}</strong>
+
+            | 
+            <a href="/quotes/" class="">Dashboard</a>
+            | 
+            <a href="/login/logout" class="">Log out</a>
+        </p>
+    </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
 </body>

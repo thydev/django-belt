@@ -62,15 +62,6 @@ def create(request):
     if request.method != "POST":
         return redirect('/')
 
-    # ''' Datetime experiements
-    # print "date===>", request.POST['date_birth']
-    # print "dj date===>", datetime.now().strftime("%Y-%m-%d")
-    # if  request.POST['date_birth']:
-    #     print request.POST['date_birth'] < datetime.now().strftime("%Y-%m-%d")
-        
-    # # return redirect('/') # testing purpose
-    # '''
-
     # Validation for creating new object
     errors = User.objects.create_validator(request.POST)
     if len(errors) > 0:
