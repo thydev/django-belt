@@ -1,0 +1,102 @@
+body{
+    margin: 10px;
+}
+.error{
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.success{
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 26px;
+}
+
+.login {
+    display: inline-block;
+    width: 450px;
+    vertical-align: top;
+}
+.login label{
+    width: 150px;
+}
+
+.register{
+    display: inline-block;
+    width: 500px;
+    vertical-align: top;
+    border-left: 2px double grey;
+}
+.register label{
+    width: 150px;
+}
+.register input{
+    width: 150px;
+}
+.display{
+    margin-top: 20px;
+    width: 900px;
+}
+
+.displayreview{
+    width: 600px;
+    display: inline-block;
+    vertical-align: top;
+    /* background-color: beige; */
+}
+
+.addquote{
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+    border: 2px double gray;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.review_box{
+    border-top: 2px double grey;
+    padding: 5px;
+}
+.review_box a{
+    text-decoration: underline;
+}
+.displaybook{
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+    /* background-color: beige; */
+}
+
+.booktitle{
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.booklist{
+    width: 300px;
+    border: 2px double cornflowerblue;
+    padding: 10px;
+}
+.booklist a{
+    display: block;
+    text-decoration: underline;
+    padding: 5px 0;
+}
+
+.subbox {
+    margin-left: 30px;
+}
+
+.loggedin{
+    border-bottom: 2px double gray;
+}
+
+.checked {
+    color: orange;
+}
+.stars{
+    display: inline;
+}

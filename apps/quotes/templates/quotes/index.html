@@ -1,0 +1,61 @@
+{% extends 'quotes/base.html' %}
+    {% block content %}
+
+    <div class="container displaybook">
+        <h4>Quotable Quotes</h4>
+        
+        {% for quote in quotes %}
+        <div class="review_box">
+            <p>{{quote.quoted_by}}: {{quote.message}}</p>
+            <p>Posted by <a href="/quotes/users/{{quote.poster.id}}">{{ quote.poster.first_name }}</a></p>
+            <form action="/quotes/{{quote.id}}/add/favorite" method="post">
+                {% csrf_token %}
+                <input type="submit" value=" Add to my list " class="btn btn-primary">
+            </form>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+    <div class="container displaybook">
+        <h4>My favorite Quotes</h4>
+        
+        {% for fav in favorites %}
+        <div class="review_box">
+            <p><strong>{{fav.quote.quoted_by}}</strong>: {{fav.quote.message}}</p>
+            <p>Posted by <a href="/quotes/users/{{fav.quote.poster.id}}">{{ fav.quote.poster.first_name }}</a></p>
+            <form action="/quotes/{{fav.id}}/delete/favorite" method="post">
+                {% csrf_token %}
+                <input type="submit" value=" Remove from my list " class="btn btn-danger">
+            </form>
+        </div>
+        {% endfor %}
+
+        <div class="container addquote">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        {% if message.tags == "create error" %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="/quotes/create" method="POST">
+                    {% csrf_token %}
+                    <div class="form-inline form-group ">
+                        <label for="title">Quoted by:</label>
+                        <input name="quoted_by" type="text" id="title" class="form-control mx-sm-3" >
+                    </div>
+                    <div class="form-inline form-group ">
+                        <label for="review">Message:</label>
+                        <textarea name="message" id="review" cols="30" rows="3"></textarea>
+                    </div>
+                    
+                    <input type="submit" value=" Submit " class="btn btn-primary">
+                </form>
+            </div>
+    </div>
+
+    
+    {% endblock %}

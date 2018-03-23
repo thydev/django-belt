@@ -4,7 +4,25 @@ from models import User
 import bcrypt
 from datetime import datetime
 
-# Create your views here.
+# '''General utilities functions'''
+def isLogin(request):
+    if 'loggedin' not in request.session:
+        request.session['loggedin'] = {
+            'id': -1,
+            'name': "undefined"
+        }
+    # Redirect to the login if the user did not log in yet
+    if request.session['loggedin']['id'] != -1:
+        return True
+    return False
+
+def setLoggedIn(request, user):
+    request.session['loggedin'] = {
+        'id': user.id,
+        'name': "{} {}".format(user.first_name, user.last_name)
+    }
+# '''General utilities functions'''
+
 def index(request):
     request.session.modified = True
     if 'loggedin' not in request.session:
@@ -18,12 +36,12 @@ def login(request):
     request.session.modified = True
     if request.method != "POST":
         return redirect('/')
+
     email = request.POST['email']
     user = User.objects.filter(email = email)
     
     if len(user) == 0:
         messages.error(request, "This email {} does not exist in the system".format(email), extra_tags="login")
-        # messages.add_message(request,messages.WARNING)
     else:
         password = request.POST['password']
         # To check if a password encrypted in bcrypt matches another
@@ -31,27 +49,27 @@ def login(request):
         if not bcrypt.checkpw(password.encode(), user.password.encode()):
             messages.error(request, "Incorrect password.", extra_tags="login")
             return redirect('/')
-        messages.success(request, "Successfully logged in !, Welcome {} {}".format(user.first_name, user.last_name))
-        request.session['loggedin'] = {
-            'id': user.id,
-            'name': "{} {}".format(user.first_name, user.last_name)
-        }
-        # return redirect('/login/success')
-        return redirect('/books')
+            
+        # Set loggedIn session to current user
+        setLoggedIn(request, user)
 
+        # return redirect('/login/success')
+        return redirect('/quotes')
     return redirect('/')
 
 def create(request):
     request.session.modified = True
     if request.method != "POST":
         return redirect('/')
-    
-    print "date===>", request.POST['date_birth']
-    print "dj date===>", datetime.now().strftime("%Y-%m-%d")
-    if  request.POST['date_birth']:
-        print request.POST['date_birth'] < datetime.now().strftime("%Y-%m-%d")
+
+    # ''' Datetime experiements
+    # print "date===>", request.POST['date_birth']
+    # print "dj date===>", datetime.now().strftime("%Y-%m-%d")
+    # if  request.POST['date_birth']:
+    #     print request.POST['date_birth'] < datetime.now().strftime("%Y-%m-%d")
         
-    # return redirect('/') # testing purpose
+    # # return redirect('/') # testing purpose
+    # '''
 
     # Validation for creating new object
     errors = User.objects.create_validator(request.POST)
@@ -64,18 +82,31 @@ def create(request):
     password = request.POST['password']
     # Encript the password by using bscrypt
     password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-    user = User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'], password = password)
-    messages.success(request, "Successfully logged in!")
-    request.session['loggedin'] = {
-        'id': user.id,
-        'name': "{} {}".format(user.first_name, user.last_name)
-    }
+    
+    if  request.POST['date_birth']:
+        parsed_date = datetime.strptime(request.POST['date_birth'], "%Y-%m-%d")
+        user = User.objects.create(
+            first_name = request.POST['first_name'], 
+            last_name = request.POST['last_name'], 
+            email = request.POST['email'], password = password,
+            date_birth = parsed_date
+        )
+    else:
+        user = User.objects.create(
+            first_name = request.POST['first_name'], 
+            last_name = request.POST['last_name'], 
+            email = request.POST['email'], password = password
+        )
+
+    # Set loggedIn session to current user
+    setLoggedIn(request, user)
+
     # return redirect('/login/success')
-    return redirect('/books')
+    return redirect('/quotes')
 
 def success(request):
     # Redirect to the login if the user did not log in yet
-    if request.session['loggedin']['id'] == -1:
+    if not isLogin(request):
         return redirect('/')
 
     # Display success message
@@ -88,7 +119,3 @@ def logout(request):
             'name': "undefined"
         }
     return redirect('/')
-
-def showuser(request, id):
-    # In books app or in login app?
-    pass

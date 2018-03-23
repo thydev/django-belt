@@ -1,0 +1,49 @@
+{% extends 'quotes/base.html' %}
+    {% block content %}
+
+    <h3>Add a new Book title and a Review</h3>
+    <div class="container addbook">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "create error" %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/books/create" method="POST">
+            {% csrf_token %}
+            <div class="form-inline form-group ">
+                <label for="title">Book Title</label>
+                <input name="title" type="text" id="title" class="form-control mx-sm-3" >
+            </div>
+            <div class="form-group ">
+                <label for="author">Author</label>
+                <div class="form-group">
+                    <label>Choose from the list:</label>
+                    <select name="author" id="author">
+                        {% for author in authors %}
+                        <option value="{{author.id}}">{{author.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-inline form-group">
+                    <label for="author_new">Or add a new author</label>
+                    <input name="author_new" type="text" id="author_new" class="form-control mx-sm-3" >
+                </div>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="review">Review</label>
+                <textarea name="review" id="review" cols="30" rows="3"></textarea>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="rating">Rating</label>
+                <input name="rating" id="rating" type="number" min="1" max="5" value="1" class="form-control"> stars.
+            </div>
+            <input type="submit" value="Add Book and Review" class="btn btn-primary form-control">
+        </form>
+    </div> <!-- Registration-->
+
+    {% endblock %}

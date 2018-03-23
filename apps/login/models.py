@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Q
 import re
+from datetime import datetime
 
 
 # create a regular expression object that we can use run operations on
@@ -32,6 +33,11 @@ class UserManager(models.Manager):
             errors['password'] = "Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 symbol"
         elif password != password_confirm:
             errors['password'] = "Password does not match!"
+
+        if  postData['date_birth']:
+            # print request.POST['date_birth'] < datetime.now().strftime("%Y-%m-%d")
+            if postData['date_birth'] > datetime.now().strftime("%Y-%m-%d"):
+                errors['date_birth'] = "Date of birth should not be later that current date"
 
         return errors
 

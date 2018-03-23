@@ -1,0 +1,50 @@
+{% extends 'quotes/base.html' %}
+    {% block content %}
+
+    <div class="container displayreview">
+        <h3>{{book.title}}</h3>
+        <h4>Author: {{book.author.name}}</h4>
+        <h5>Reviews:</h5>
+    
+        {% for rv in book.book_reviews.all|dictsortreversed:"created_at" %}
+        <div class="review_box">
+            <p><div>Rating: <div class="stars">{{rv.rating}}</div></div></p>
+            <p><a href="/books/users/{{rv.user.id}}">{{ rv.user.first_name }}</a> says: {{ rv.review }} </p>
+            <p>Posted on {{ rv.created_at|date:"N d, Y" }}
+
+                {% if rv.user.id == request.session.loggedin.id %}
+                | <a href="/books/{{book.id}}/delete/{{rv.id}}/review" class="error alert-danger">Delete this review</a>
+                {% endif %}
+            </p>
+        </div>
+        {% endfor %}
+        
+    </div>
+    <div class="container addreview">
+        
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "create error" %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form action="/books/{{book.id}}/add/review" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-inline form-group ">
+                <label for="review">Review</label>
+                <textarea name="review" id="review" cols="30" rows="3"></textarea>
+            </div>
+            <div class="form-inline form-group ">
+                <label for="rating">Rating</label>
+                <input name="rating" id="rating" type="number" min="1" max="5" value="1" class=""> stars.
+            </div>
+            <input type="submit" value="Submit Review" class="btn btn-primary">
+        </form>
+    </div> <!-- -->
+
+    {% endblock %}

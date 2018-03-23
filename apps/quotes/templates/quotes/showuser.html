@@ -1,0 +1,18 @@
+{% extends 'quotes/base.html' %}
+    {% block content %}
+
+    <div class="container displayreview">
+        <h5>Posts by  {{user.first_name}}</h5>
+        <h5>Count: {{user.posted_quotes.count}}</h5>
+        
+        <div class="subbox booklist">
+            {% for quote in user.posted_quotes.all %}
+            <p><span class="error">{{quote.quoted_by}}:</span> {{quote.message}}</p>
+            {% endfor %}
+            
+        </div>
+        
+    </div>
+    
+
+    {% endblock %}

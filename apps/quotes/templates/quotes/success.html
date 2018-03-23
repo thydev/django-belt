@@ -1,0 +1,18 @@
+{% extends 'quotes/base.html' %}
+    {% block content %}
+    {% if request.session.loggedin.id != -1 %}
+    <div class="loggedin">
+        <p>Hello, <strong>{{request.session.loggedin.name}}</strong></p>
+        <a href="/login/logout" class="btn btn-primary">Log out</a>
+        
+    </div>
+    {% endif %}
+    <h1>Yayyyàaa</h1>
+    {% if messages %}
+        {% for message in messages %}
+        <h1{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h1>
+        {% endfor %}
+
+    {% endif %}
+
+    {% endblock %}
